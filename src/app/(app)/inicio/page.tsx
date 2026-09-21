@@ -6,6 +6,8 @@ import { db } from "@/lib/db";
 import { getProgramDay, getProgramPercent } from "@/lib/program";
 import { requireSession } from "@/lib/session";
 
+export const dynamic = "force-dynamic";
+
 export default async function DashboardPage() {
   const session = await requireSession();
   const [access] = await db

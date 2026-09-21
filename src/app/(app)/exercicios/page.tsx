@@ -3,6 +3,8 @@ import { Dumbbell } from "lucide-react";
 import { exercises } from "@/db/schema";
 import { db } from "@/lib/db";
 
+export const dynamic = "force-dynamic";
+
 export default async function ExercisesPage() {
   const data = await db.select().from(exercises).where(eq(exercises.active, true)).orderBy(asc(exercises.name));
   return (

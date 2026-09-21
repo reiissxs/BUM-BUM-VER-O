@@ -3,6 +3,8 @@ import { CalendarDays } from "lucide-react";
 import { programDays, programs } from "@/db/schema";
 import { db } from "@/lib/db";
 
+export const dynamic = "force-dynamic";
+
 export default async function WorkoutsPage() {
   const [program] = await db.select().from(programs).where(eq(programs.slug, "bumbum-verao")).limit(1);
   const days = program ? await db.select().from(programDays).where(eq(programDays.programId, program.id)).orderBy(asc(programDays.dayNumber)) : [];

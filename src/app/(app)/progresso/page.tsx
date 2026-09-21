@@ -4,6 +4,8 @@ import { progressEntries, workoutSessions } from "@/db/schema";
 import { db } from "@/lib/db";
 import { requireSession } from "@/lib/session";
 
+export const dynamic = "force-dynamic";
+
 export default async function ProgressPage() {
   const session = await requireSession();
   const [latest] = await db.select().from(progressEntries).where(eq(progressEntries.userId, session.user.id)).orderBy(desc(progressEntries.entryDate)).limit(1);

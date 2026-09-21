@@ -60,3 +60,24 @@ Implementar o **motor de treino transacional**:
 - impedir duplicidade de série/sessão
 
 Depois: editor administrativo de exercícios/treinos/90 dias, suporte em chat, fotos privadas e checkout/webhooks.
+
+
+## Deploy na Vercel
+
+O repositório precisa conter **todo o projeto**, não apenas `src/app`. Confirme no GitHub que também existem:
+
+- `src/components/`
+- `src/db/`
+- `src/lib/`
+- `drizzle.config.ts`
+- `.gitignore`
+
+Na Vercel configure as variáveis:
+
+```env
+DATABASE_URL=postgresql://...
+BETTER_AUTH_SECRET=uma-chave-secreta-forte
+BETTER_AUTH_URL=https://seu-projeto.vercel.app
+```
+
+As páginas que consultam o Neon estão marcadas como dinâmicas para evitar consultas ao banco durante o build.

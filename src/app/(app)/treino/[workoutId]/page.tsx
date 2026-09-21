@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { exercises, workoutExercises, workouts } from "@/db/schema";
 import { db } from "@/lib/db";
 
+export const dynamic = "force-dynamic";
+
 export default async function WorkoutPage({ params, searchParams }: { params: Promise<{ workoutId: string }>; searchParams: Promise<{ dia?: string }> }) {
   const { workoutId } = await params;
   const { dia } = await searchParams;

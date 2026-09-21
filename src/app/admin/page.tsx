@@ -3,6 +3,8 @@ import { Dumbbell, Library, MessageCircle, Users } from "lucide-react";
 import { exercises, programAccess, supportThreads, workouts } from "@/db/schema";
 import { db } from "@/lib/db";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminPage() {
   const [[exerciseCount], [workoutCount], [accessCount], [threadCount]] = await Promise.all([
     db.select({ value: count() }).from(exercises),
