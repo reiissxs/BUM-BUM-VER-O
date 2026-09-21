@@ -1,54 +1,31 @@
 "use client";
 
+import { FormEvent } from "react";
 import Link from "next/link";
-import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { authClient } from "@/lib/auth-client";
 
 export default function FirstAccessPage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function start(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setLoading(true);
-    setError("");
-    const form = new FormData(event.currentTarget);
-
-    const result = await authClient.signUp.email({
-      name: String(form.get("name") || ""),
-      email: String(form.get("email") || ""),
-      password: String(form.get("password") || ""),
-    });
-
-    setLoading(false);
-    if (result.error) {
-      setError(result.error.message || "Não foi possível criar o acesso.");
-      return;
-    }
-    router.replace("/onboarding");
-    router.refresh();
+    router.push("/onboarding");
   }
 
   return (
     <main className="auth-shell">
       <section className="auth-card">
         <div className="brand">BUM BUM <span>VERÃO</span></div>
-        <div style={{ height: 28 }} />
-        <span className="eyebrow">Primeiro acesso</span>
-        <h1 className="h1">Crie sua senha.</h1>
-        <p className="muted">Use o mesmo e-mail informado na compra quando a integração do checkout estiver ativa.</p>
-        <div style={{ height: 18 }} />
-        <form className="stack" onSubmit={handleSubmit}>
-          <div className="field"><label htmlFor="name">Nome</label><input className="input" id="name" name="name" required /></div>
-          <div className="field"><label htmlFor="email">E-mail</label><input className="input" id="email" name="email" type="email" required /></div>
-          <div className="field"><label htmlFor="password">Senha</label><input className="input" id="password" name="password" type="password" minLength={8} required /></div>
-          {error && <div className="error">{error}</div>}
-          <button className="btn btn-primary" disabled={loading} type="submit">{loading ? "Criando..." : "COMEÇAR"}</button>
+        <span className="eyebrow" style={{ display: "block", marginTop: 30 }}>Primeiro acesso</span>
+        <h1 className="h1">Vamos preparar seus 90 dias.</h1>
+        <p className="muted">Na versão final, sua compra libera o acesso automaticamente.</p>
+        <form className="stack" onSubmit={start} style={{ marginTop: 24 }}>
+          <div className="field"><label>Seu nome</label><input className="input" placeholder="Como quer ser chamada?" /></div>
+          <div className="field"><label>E-mail</label><input className="input" type="email" placeholder="seuemail@email.com" /></div>
+          <div className="field"><label>Crie uma senha</label><input className="input" type="password" placeholder="Mínimo de 8 caracteres" /></div>
+          <button className="btn btn-primary" type="submit">COMEÇAR</button>
         </form>
-        <div className="divider" />
-        <Link className="btn btn-ghost" href="/login">Já tenho acesso</Link>
+        <p style={{ marginTop: 18, fontSize: 13 }}><Link href="/login">Já tenho acesso</Link></p>
       </section>
     </main>
   );

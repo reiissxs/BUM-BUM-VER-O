@@ -1,4 +1,11 @@
-import { auth } from "@/lib/auth";
-import { toNextJsHandler } from "better-auth/next-js";
+import { NextResponse } from "next/server";
 
-export const { GET, POST } = toNextJsHandler(auth);
+function demoResponse() {
+  return NextResponse.json(
+    { demo: true, message: "Autenticação real será ativada quando o Neon for conectado." },
+    { status: 503 },
+  );
+}
+
+export const GET = demoResponse;
+export const POST = demoResponse;

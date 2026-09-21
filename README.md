@@ -1,83 +1,31 @@
-# BUM BUM VERÃO — foundation v0.1
+# BUM BUM VERÃO — preview
 
-Fundação mobile-first do produto BUM BUM VERÃO, com Next.js + PostgreSQL Neon + Better Auth + Drizzle ORM.
+Aplicação mobile-first do BUM BUM VERÃO.
 
-## O que já existe
+## Estado atual
 
-- Login e primeiro acesso com e-mail/senha
-- Sessão persistente via Better Auth
-- Banco preparado para programa, 90 dias, treinos, exercícios, cargas, progresso, fotos, suporte e conquistas
-- Dashboard da aluna lendo dados reais do banco
-- Navegação mobile-first
-- Biblioteca de exercícios e cronograma
-- Página inicial de treino sem gravações falsas/local-only
-- Painel administrativo protegido por role
-- Bootstrap real do produto BUM BUM VERÃO (R$ 37,90 + upgrade vitalício R$ 19,90)
+O projeto está temporariamente em **modo demonstração** para permitir deploy e avaliação visual na Vercel sem Neon, sem variáveis de ambiente e sem autenticação real.
 
-## Stack
+- login demonstrativo
+- dashboard Dia 17 de 90
+- treino do dia
+- cronograma
+- biblioteca de exercícios
+- progresso
+- onboarding
+- painel admin demonstrativo
 
-- Next.js 16.3 App Router
-- React
-- PostgreSQL no Neon
-- Better Auth usando o próprio Postgres do Neon
-- Drizzle ORM
-- CSS mobile-first sem dependência de framework visual
+As estruturas de Neon, Better Auth, Drizzle e schema continuam no repositório para a próxima etapa.
 
-## Instalação
+## Deploy
 
-1. Crie um projeto no Neon e copie a connection string.
-2. Copie `.env.example` para `.env.local`.
-3. Preencha `DATABASE_URL`, `BETTER_AUTH_SECRET` e `BETTER_AUTH_URL`.
-4. Rode:
+No modo atual basta conectar o repositório à Vercel e fazer deploy. Nenhuma variável de ambiente é obrigatória para visualizar o app.
 
-```bash
-npm install
-npm run auth:migrate
-npm run db:push
-npm run bootstrap
-npm run dev
-```
+## Próxima etapa
 
-Abra `http://localhost:3000`.
-
-## Observação sobre autenticação
-
-Better Auth cria e gerencia as próprias tabelas de usuário/sessão no Postgres. O app usa `profiles` para role e informações específicas do BUM BUM VERÃO.
-
-O perfil da usuária é criado automaticamente no primeiro acesso autenticado. Para transformar sua conta em administradora, altere `profiles.role` para `admin` no Neon.
-
-## Próxima etapa recomendada
-
-Implementar o **motor de treino transacional**:
-
-- iniciar/retomar sessão ativa
-- registrar cada série no Neon
-- exibir última carga usada
-- timer de descanso
-- próximo exercício
-- finalizar treino
-- atualizar progresso imediatamente
-- impedir duplicidade de série/sessão
-
-Depois: editor administrativo de exercícios/treinos/90 dias, suporte em chat, fotos privadas e checkout/webhooks.
-
-
-## Deploy na Vercel
-
-O repositório precisa conter **todo o projeto**, não apenas `src/app`. Confirme no GitHub que também existem:
-
-- `src/components/`
-- `src/db/`
-- `src/lib/`
-- `drizzle.config.ts`
-- `.gitignore`
-
-Na Vercel configure as variáveis:
-
-```env
-DATABASE_URL=postgresql://...
-BETTER_AUTH_SECRET=uma-chave-secreta-forte
-BETTER_AUTH_URL=https://seu-projeto.vercel.app
-```
-
-As páginas que consultam o Neon estão marcadas como dinâmicas para evitar consultas ao banco durante o build.
+Depois da aprovação visual:
+1. ligar Neon;
+2. migrar tabelas;
+3. ativar Better Auth;
+4. substituir os dados de demonstração por dados reais;
+5. implementar gravação transacional das séries, cargas, progresso, fotos e suporte.

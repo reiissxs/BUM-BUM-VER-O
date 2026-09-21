@@ -1,65 +1,46 @@
 "use client";
 
+import { FormEvent } from "react";
 import Link from "next/link";
-import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { authClient } from "@/lib/auth-client";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function enterDemo(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setLoading(true);
-    setError("");
-    const form = new FormData(event.currentTarget);
-
-    const result = await authClient.signIn.email({
-      email: String(form.get("email") || ""),
-      password: String(form.get("password") || ""),
-    });
-
-    setLoading(false);
-    if (result.error) {
-      setError("Não foi possível entrar. Confira seu e-mail e senha.");
-      return;
-    }
-    router.replace("/inicio");
-    router.refresh();
+    router.push("/inicio");
   }
 
   return (
     <main className="auth-shell">
       <section className="auth-card">
         <div className="brand">BUM BUM <span>VERÃO</span></div>
-        <div style={{ height: 28 }} />
-        <span className="eyebrow">90 dias</span>
+        <span className="eyebrow" style={{ display: "block", marginTop: 30 }}>Seu projeto de 90 dias</span>
         <h1 className="h1">Seus próximos 90 dias começam aqui.</h1>
-        <p className="muted">Entre para ver o treino de hoje, registrar suas cargas e acompanhar sua evolução.</p>
-        <div style={{ height: 18 }} />
+        <p className="muted">Abra o app, veja o treino do dia e siga o programa sem precisar montar nada.</p>
 
-        <form className="stack" onSubmit={handleSubmit}>
+        <form className="stack" onSubmit={enterDemo} style={{ marginTop: 24 }}>
           <div className="field">
-            <label htmlFor="email">E-mail</label>
-            <input className="input" id="email" name="email" type="email" autoComplete="email" required />
+            <label>E-mail</label>
+            <input className="input" type="email" placeholder="seuemail@email.com" defaultValue="demo@bumbumverao.com" />
           </div>
           <div className="field">
-            <label htmlFor="password">Senha</label>
-            <input className="input" id="password" name="password" type="password" autoComplete="current-password" required />
+            <label>Senha</label>
+            <input className="input" type="password" placeholder="••••••••" defaultValue="12345678" />
           </div>
-          {error && <div className="error">{error}</div>}
-          <button className="btn btn-primary" disabled={loading} type="submit">
-            {loading ? "Entrando..." : "ENTRAR"}
-          </button>
+          <button className="btn btn-primary" type="submit">ENTRAR NO APP</button>
         </form>
 
-        <div className="divider" />
-        <div className="stack" style={{ gap: 8 }}>
-          <Link className="btn btn-secondary" href="/primeiro-acesso">Primeiro acesso</Link>
-          <Link className="btn btn-ghost" href="/recuperar-senha">Esqueci minha senha</Link>
+        <div style={{ display: "flex", justifyContent: "space-between", gap: 16, marginTop: 18, fontSize: 13 }}>
+          <Link className="muted" href="/recuperar-senha">Esqueci minha senha</Link>
+          <Link href="/primeiro-acesso">Primeiro acesso</Link>
         </div>
+
+        <div className="divider" />
+        <p className="muted" style={{ fontSize: 12, margin: 0 }}>
+          Prévia visual: o banco e a autenticação real serão ligados depois.
+        </p>
       </section>
     </main>
   );

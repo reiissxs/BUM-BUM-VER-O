@@ -1,19 +1,36 @@
-import { asc, eq } from "drizzle-orm";
-import { Dumbbell } from "lucide-react";
-import { exercises } from "@/db/schema";
-import { db } from "@/lib/db";
+import { Dumbbell, Search } from "lucide-react";
 
-export const dynamic = "force-dynamic";
+const exercises = [
+  ["Elevação pélvica", "Glúteos", "Máquina / Smith"],
+  ["Agachamento búlgaro", "Glúteos + Quadríceps", "Halteres"],
+  ["Stiff", "Posteriores + Glúteos", "Barra"],
+  ["Abdução de quadril", "Glúteo médio", "Máquina"],
+  ["Coice na polia", "Glúteos", "Polia"],
+  ["Mesa flexora", "Posteriores", "Máquina"],
+];
 
-export default async function ExercisesPage() {
-  const data = await db.select().from(exercises).where(eq(exercises.active, true)).orderBy(asc(exercises.name));
+export default function ExercisesPage() {
   return (
     <section>
       <span className="eyebrow">Biblioteca</span>
       <h1 className="h1">Exercícios</h1>
-      <p className="muted">Vídeos, execução, músculos trabalhados, equipamento e orientações técnicas.</p>
-      <div className="list" style={{ marginTop: 22 }}>
-        {data.length === 0 ? <div className="card empty"><Dumbbell size={30} /><p>A biblioteca ainda está vazia. Os exercícios serão cadastrados pelo admin.</p></div> : data.map((item) => <div className="list-row" key={item.id}><div><strong>{item.name}</strong><div className="muted">{item.muscleGroup || "Grupo muscular não informado"}</div></div><span className="pill">{item.equipment || "Livre"}</span></div>)}
+      <p className="muted">Consulte execução, músculos trabalhados, equipamento e orientações técnicas.</p>
+      <div className="field" style={{ margin: "22px 0 14px" }}>
+        <div style={{ position: "relative" }}>
+          <Search size={18} style={{ position: "absolute", left: 14, top: 15, opacity: .55 }} />
+          <input className="input" placeholder="Pesquisar exercício" style={{ paddingLeft: 42 }} />
+        </div>
+      </div>
+      <div className="list">
+        {exercises.map(([name, group, equipment]) => (
+          <div className="list-row" key={name}>
+            <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+              <div className="avatar"><Dumbbell size={19} /></div>
+              <div><strong>{name}</strong><div className="muted">{group}</div></div>
+            </div>
+            <span className="pill">{equipment}</span>
+          </div>
+        ))}
       </div>
     </section>
   );

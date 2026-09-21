@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { requireAdmin } from "@/lib/session";
 
-export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  await requireAdmin();
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <main className="shell">
-      <header className="topbar"><div className="brand">BUM BUM <span>VERÃO</span> · Admin</div><Link className="btn btn-secondary" href="/inicio">Voltar ao app</Link></header>
+      <div className="topbar">
+        <div><div className="brand">BUM BUM <span>VERÃO</span></div><span className="eyebrow">Admin demo</span></div>
+        <Link className="btn btn-secondary" href="/inicio">Ver app</Link>
+      </div>
       {children}
     </main>
   );
